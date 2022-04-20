@@ -1,11 +1,10 @@
 package com.whatsapp.profile_service.services;
 
-import java.time.LocalDateTime;
-
-import com.whatsapp.profile_service.exceptions.RequestValidationException;
+import com.whatsapp.profile_service.exceptions.InvalidCredentialsException;
+import com.whatsapp.profile_service.exceptions.InvalidPasswordException;
 import com.whatsapp.profile_service.exceptions.UserNotFoundException;
 import com.whatsapp.profile_service.models.User;
-import com.whatsapp.profile_service.repositories.UserRepository;
+import com.whatsapp.profile_service.repository.UserRepository;
 import com.whatsapp.profile_service.utils.JwtUtils;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,62 +15,45 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class AuthService {
-    private final UserRepository repository;
-    private final JwtUtils jwtUtils;
+
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final RateLimiterService rateLimiterService;
+    private final JwtUtils jwtUtils;
 
-    public void signup(String email, String password, String username) {
-        if (userExistsInDb(email))
-            throw new RequestValidationException("User with similar credentials already exists");
-        saveUser(email, password, username);
+
+    public void signup(User user) {
+        validateUserForSignup(user);
+        modifyUserForSignup(user);
+        saveUser(user);
     }
 
-    public String generateToken(String email, String password, String ip) {
-        checkIfIpHasExceededHisTries(ip);
-        User user = fetchUserFromDb(email, ip);
-        if (userCredentialsIsValid(password, ip, user))
-            return updateUserAndCreateJwtToken(user);
-        throw new RequestValidationException("Incorrect credentials provided");
+    private void modifyUserForSignup(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
     }
 
-    private void checkIfIpHasExceededHisTries(String ip) {
-        if (!rateLimiterService.isEligibleForLogin(ip))
-            throw new RequestValidationException("You have used up all your tries please try again later");
+    private void validateUserForSignup(User user) {
+        if (userRepository.existsByEmail(user.getEmail()))
+            throw new InvalidCredentialsException();
     }
 
-    public String updateUserAndCreateJwtToken(User user) {
-        updateLastLoggedInAtForUser(user);
+    private void saveUser(User user) {
+        userRepository.save(user);
+    }
+
+    public String login(String email, String password) {
+        User user = loadUserByEmail(email);
+        validateUserLogin(password, user);
         return jwtUtils.generateToken(user);
     }
 
-    private boolean userExistsInDb(String email) {
-        return repository.existsByEmail(email);
+    private void validateUserLogin(String password, User user) {
+        if (!passwordEncoder.matches(password, user.getPassword()))
+            throw new InvalidPasswordException();
     }
 
-    private boolean userCredentialsIsValid(String password, String ip, User user) {
-        boolean matches = passwordEncoder.matches(password, user.getPassword());
-        if (!matches) rateLimiterService.incrementTries(ip);
-        return matches;
-    }
-
-    private void saveUser(String email, String password, String username) {
-        String encodedPassword = passwordEncoder.encode(password);
-        User user = new User(username,encodedPassword,email);
-        repository.save(user);
-    }
-
-    private void updateLastLoggedInAtForUser(User user) {
-        user.setLastLoggedInAt(LocalDateTime.now());
-        repository.save(user);
-        rateLimiterService.clear(user.getEmail());
-    }
-    private User fetchUserFromDb(String email, String ip) {
-        return repository
+    private User loadUserByEmail(String email) {
+        return userRepository
                 .findByEmail(email)
-                .orElseThrow(() -> {
-                    rateLimiterService.incrementTries(ip);
-                    return new UserNotFoundException();
-                });
+                .orElseThrow(UserNotFoundException::new);
     }
 }

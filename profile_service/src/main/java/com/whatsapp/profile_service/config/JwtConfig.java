@@ -1,19 +1,15 @@
-package com.whatsapp.profile_service.configuration;
+package com.whatsapp.profile_service.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Configuration
 @ConfigurationProperties(prefix = "jwt")
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class JwtConfig {
-      private String cookieName;
-      private Long timeDelta;
+      private long timeDelta;
       private String secretKey;
+      private String cookieName;
 }
