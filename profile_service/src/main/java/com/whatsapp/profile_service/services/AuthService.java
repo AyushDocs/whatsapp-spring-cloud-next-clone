@@ -29,6 +29,7 @@ public class AuthService {
 
     private void modifyUserForSignup(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        
     }
 
     private void validateUserForSignup(User user) {

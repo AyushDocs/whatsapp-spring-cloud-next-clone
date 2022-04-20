@@ -7,10 +7,14 @@ import javax.validation.constraints.NotNull;
 
 import com.whatsapp.profile_service.models.User;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class SignupRequest {
       @Email
       @NotNull
@@ -26,10 +30,10 @@ public class SignupRequest {
       @NotEmpty
       private String username;
       public User toUser(){
-            return User.builder()
-                  .email(email)
-                  .password(password)
-                  .username(username)
-                  .build();
+            User user=new User();
+            user.setEmail(email);
+            user.setPassword(password);
+            user.setUsername(username);
+            return user;
       }
 }

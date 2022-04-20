@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ExceptionAdvisor {
       @ExceptionHandler(InvalidCredentialsException.class)
       @ResponseStatus(HttpStatus.BAD_REQUEST)
-      public Response<Object> invalidCredentialsException(InvalidCredentialsException ex) {
+      public Response<Map<String, String>> invalidCredentialsException(InvalidCredentialsException ex) {
             Map<String, String> errors = new HashMap<>();
             errors.put("message", "invalid credentials");
             return new Response<>(errors, true);
@@ -26,7 +26,7 @@ public class ExceptionAdvisor {
 
       @ExceptionHandler(MethodArgumentNotValidException.class)
       @ResponseStatus(HttpStatus.BAD_REQUEST)
-      public Response<Object> methodArgumentNotValidException(MethodArgumentNotValidException ex) {
+      public Response<Map<String, String>> methodArgumentNotValidException(MethodArgumentNotValidException ex) {
             Map<String, String> errors = new HashMap<>();
             ex.getBindingResult().getAllErrors().forEach(error -> {
                   String fieldName = ((FieldError) error).getField();

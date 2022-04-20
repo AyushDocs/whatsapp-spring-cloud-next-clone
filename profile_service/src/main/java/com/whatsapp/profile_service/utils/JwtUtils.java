@@ -8,7 +8,6 @@ import java.util.function.Function;
 import com.whatsapp.profile_service.config.JwtConfig;
 import com.whatsapp.profile_service.models.CustomUserDetails;
 import com.whatsapp.profile_service.models.User;
-import com.whatsapp.profile_service.models.User.UserBuilder;
 
 import org.springframework.stereotype.Service;
 
@@ -64,11 +63,12 @@ public class JwtUtils {
       }
 
       public CustomUserDetails extractUser(String token) {
-            UserBuilder userBuilder = User.builder();
+            User user = new User();
             Map<String, Object> claims = extractClaims(token);
-            userBuilder.email((String) claims.get("email"));
-            userBuilder.uuid((String) claims.get("uuid"));
-            userBuilder.username((String) claims.get("username"));
-            return new CustomUserDetails(userBuilder.build());
+            user.setEmail((String) claims.get("email"));
+            user.setUuid((String) claims.get("uuid"));
+            user.setUsername((String) claims.get("username"));
+            return new CustomUserDetails(user);
+
       }
 }
