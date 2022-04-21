@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.whatsapp.profile_service.dto.Response;
 import com.whatsapp.profile_service.exceptions.InvalidCredentialsException;
+import com.whatsapp.profile_service.exceptions.InvalidInputException;
 import com.whatsapp.profile_service.exceptions.UserNotFoundException;
 
 import org.springframework.http.HttpStatus;
@@ -40,6 +41,12 @@ public class ExceptionAdvisor {
       @ResponseStatus(HttpStatus.BAD_REQUEST)
       public Response<Object> userNotFoundException(UserNotFoundException ex) {
             Map<String, String> errors =Map.of("message", "user not found");
+            return new Response<>(errors, true);
+      }
+      @ExceptionHandler(InvalidInputException.class)
+      @ResponseStatus(HttpStatus.BAD_REQUEST)
+      public Response<Object> invalidInputException(InvalidInputException ex) {
+            Map<String, String> errors =Map.of("message", ex.getMessage());
             return new Response<>(errors, true);
       }
 }

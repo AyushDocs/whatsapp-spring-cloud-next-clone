@@ -1,5 +1,7 @@
 package com.whatsapp.profile_service.config;
 
+import static org.springframework.http.HttpMethod.GET;
+
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -13,6 +15,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
             .and()
             .authorizeRequests()
             .antMatchers("/api/v*/users/signup").permitAll()
+            .antMatchers(GET,"/api/v*/users/").permitAll()
             .antMatchers("/api/v*/users/login").permitAll()
             .anyRequest().authenticated()
             .and()

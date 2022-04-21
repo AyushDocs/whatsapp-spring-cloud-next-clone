@@ -19,7 +19,6 @@ import com.whatsapp.profile_service.utils.JwtUtils;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.function.Executable;
 import org.junit.runner.RunWith;
