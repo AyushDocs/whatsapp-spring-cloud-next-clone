@@ -11,7 +11,8 @@
 
       <modules>
             <module>library</module>
-            <module>profile_service</module>
+            <module>authentication</module>
+            <module>profile</module>
       </modules>
 
       <properties>
@@ -20,6 +21,7 @@
             <maven.compiler.target>17</maven.compiler.target>
             <spring.boot.maven.plugin.version>2.6.5</spring.boot.maven.plugin.version>
             <spring.boot.dependencies.version>2.6.5</spring.boot.dependencies.version>
+            <library.version>0.0.2-SNAPSHOT</library.version>
       </properties>
       <dependencyManagement>
             <dependencies>
