@@ -13,6 +13,8 @@
             <module>library</module>
             <module>authentication</module>
             <module>profile</module>
+            <module>room</module>
+            <module>messages</module>
       </modules>
 
       <properties>
@@ -35,7 +37,7 @@
             </dependencies>
       </dependencyManagement>
       <build>
-            <pluginManagement>                   
+            <pluginManagement>
                   <plugins>
                         <plugin>
                               <groupId>org.springframework.boot</groupId>
