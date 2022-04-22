@@ -1,5 +1,12 @@
 package com.whatsapp.authentication.controllers;
 
+import java.util.Objects;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import com.whatsapp.authentication.utils.JwtUtils;
 import com.whatsapp.library.Response;
 
@@ -16,7 +23,8 @@ import lombok.RequiredArgsConstructor;
 public class ApiController {
       private final JwtUtils jwtUtils;
       @PostMapping("/getRoles")
-      public Response<String[]> getRoles(@CookieValue("token") String jwt) {
+      public Response<String[]> getRoles(@CookieValue("token")String jwt) {
+            if(jwt.isEmpty()||jwt.isBlank())throw new IllegalArgumentException();
             String[] data = jwtUtils.extractRoles(jwt);
             return new Response<>(data, false);
       }
