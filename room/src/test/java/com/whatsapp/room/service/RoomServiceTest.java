@@ -21,17 +21,20 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.web.client.RestTemplate;
 
 @RunWith(MockitoJUnitRunner.class)
 @ExtendWith(MockitoExtension.class)
 public class RoomServiceTest {
       @Mock
       private RoomRepository roomRepository;
+      @Mock
+      private RestTemplate restTemplate;
       private RoomService roomService;
 
       @Before
       public void setup() {
-            roomService = new RoomService(roomRepository);
+            roomService = new RoomService(roomRepository, restTemplate);
       }
 
       @Test

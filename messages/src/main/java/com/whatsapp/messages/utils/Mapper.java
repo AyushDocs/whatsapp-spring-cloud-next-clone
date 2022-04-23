@@ -1,10 +1,10 @@
 package com.whatsapp.messages.utils;
 
+import static com.whatsapp.messages.models.MessageStatus.RECEIVED_BY_SERVER;
 import static lombok.AccessLevel.PRIVATE;
 
 import com.whatsapp.messages.dto.SaveMessageRequest;
 import com.whatsapp.messages.models.Message;
-import com.whatsapp.messages.models.Message.Status;
 
 import lombok.NoArgsConstructor;
 
@@ -14,7 +14,7 @@ public class Mapper {
             return new Message(
                         request.getContent(),
                         request.getSentBy(),
-                        Status.RECEIVED_BY_SERVER,
+                        RECEIVED_BY_SERVER,
                         request.getRoomUuid());
       }
 }

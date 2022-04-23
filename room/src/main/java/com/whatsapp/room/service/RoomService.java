@@ -9,6 +9,7 @@ import com.whatsapp.room.models.Room;
 import com.whatsapp.room.repository.RoomRepository;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,6 +17,10 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class RoomService {
       private final RoomRepository roomRepository;
+      private final RestTemplate restTemplate;
+
+      private static final String MESSAGE_SERVICE_URL = "http://MESSAGE-SERVICE";
+      
       public void saveRoom(SaveRoomRequest saveRoomRequest) {
             Room room = convertSaveRoomRequestToRoom(saveRoomRequest);
             roomRepository.save(room);
@@ -27,7 +32,11 @@ public class RoomService {
 
       public void saveMessage(SaveMessageRequest saveMessageRequest) {
             roomRepository.saveMessage(saveMessageRequest.getRoomUuid(), saveMessageRequest.getContent());
-            //TODO:send request to message service later
+            sendMessageToMessageService(saveMessageRequest);
+      }
+
+      private void sendMessageToMessageService(SaveMessageRequest saveMessageRequest) {
+            restTemplate.postForEntity(MESSAGE_SERVICE_URL, saveMessageRequest, Void.class);
       }
 
 }

@@ -19,12 +19,8 @@ public class Message extends BaseEntity {
       private String content;
       private String sentBy;
       @Enumerated(ORDINAL)
-      private Status status;
+      private MessageStatus status;
       private String roomUuid;
 
-      public enum Status{
-            RECEIVED_BY_SERVER,
-            SENT_BY_SERVER,
-            SEEN_BY_CLIENT2,
-      }
+    
 }

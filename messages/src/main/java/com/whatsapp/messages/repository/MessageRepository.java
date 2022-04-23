@@ -13,6 +13,6 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
                   + "FROM Message m "
                   + "WHERE m.roomUuid=?1 "
                   + "AND m.sentBy=?2 "
-                  + "AND m.status=com.whatsapp.messages.models.Message.Status.RECEIVED_BY_SERVER")
+                  + "AND m.status=com.whatsapp.messages.models.MessageStatus.RECEIVED_BY_SERVER")
       FindMessageResponse[] findUnreadMessages(String roomId, String userUuid);
 }
