@@ -31,7 +31,7 @@ import org.springframework.http.ResponseEntity;
 
 @WebMvcTest(LoginController.class)
 @ExtendWith(MockitoExtension.class)
-class LoginControllerTest {
+public class LoginControllerTest {
       @MockBean
       private LoginService loginService;
       @MockBean

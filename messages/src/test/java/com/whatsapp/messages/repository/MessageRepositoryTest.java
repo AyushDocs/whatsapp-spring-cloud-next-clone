@@ -1,7 +1,6 @@
 package com.whatsapp.messages.repository;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 import com.whatsapp.messages.dto.FindMessageResponse;
 import com.whatsapp.messages.models.Message;

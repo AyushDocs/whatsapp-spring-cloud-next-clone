@@ -16,15 +16,12 @@ import com.whatsapp.room.service.RoomService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 @WebMvcTest(RoomController.class)
 @ExtendWith(MockitoExtension.class)
-@RunWith(SpringRunner.class)
 class RoomControllerTest {
       private RoomController controller;
       @Mock

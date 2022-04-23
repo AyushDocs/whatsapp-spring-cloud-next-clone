@@ -1,12 +1,5 @@
 package com.whatsapp.authentication.controllers;
 
-import java.util.Objects;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-
 import com.whatsapp.authentication.utils.JwtUtils;
 import com.whatsapp.library.Response;
 

@@ -1,9 +1,6 @@
 package com.whatsapp.room.models;
 
-import java.util.List;
-
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
 
 import com.whatsapp.library.BaseEntity;
 

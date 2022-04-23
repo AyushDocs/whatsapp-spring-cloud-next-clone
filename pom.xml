@@ -8,11 +8,14 @@
       <artifactId>parent</artifactId>
       <packaging>pom</packaging>
       <version>1.0-SNAPSHOT</version>
+      
 
       <modules>
+            <module>eureka_server</module>
+            <module>config</module>
             <module>library</module>
-            <module>authentication</module>
             <module>profile</module>
+            <module>authentication</module>
             <module>room</module>
             <module>messages</module>
             <module>images</module>
@@ -25,6 +28,7 @@
             <spring.boot.maven.plugin.version>2.6.5</spring.boot.maven.plugin.version>
             <spring.boot.dependencies.version>2.6.5</spring.boot.dependencies.version>
             <library.version>0.0.2-SNAPSHOT</library.version>
+            <spring-cloud.version>2021.0.1</spring-cloud.version>
       </properties>
       <dependencyManagement>
             <dependencies>
@@ -34,6 +38,13 @@
                         <version>${spring.boot.dependencies.version}</version>
                         <scope>import</scope>
                         <type>pom</type>
+                  </dependency>
+                  <dependency>
+                        <groupId>org.springframework.cloud</groupId>
+                        <artifactId>spring-cloud-dependencies</artifactId>
+                        <version>${spring-cloud.version}</version>
+                        <type>pom</type>
+                        <scope>import</scope>
                   </dependency>
             </dependencies>
       </dependencyManagement>

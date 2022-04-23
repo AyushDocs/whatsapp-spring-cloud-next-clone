@@ -13,8 +13,8 @@ import com.whatsapp.room.dto.SaveRoomRequest;
 import com.whatsapp.room.models.Room;
 import com.whatsapp.room.repository.RoomRepository;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -29,13 +29,13 @@ public class RoomServiceTest {
       private RoomRepository roomRepository;
       private RoomService roomService;
 
-      @BeforeEach
-      void setup() {
+      @Before
+      public void setup() {
             roomService = new RoomService(roomRepository);
       }
 
       @Test
-      void should_not_find_rooms_no_user_with_given_uuid() {
+      public void should_not_find_rooms_no_user_with_given_uuid() {
             LocalDateTime now = LocalDateTime.now();
             FindRoomsResponse res = new FindRoomsResponse("roomUuid",
                         "name",
@@ -56,7 +56,7 @@ public class RoomServiceTest {
       }
 
       @Test
-      void should_save_room() {
+      public void should_save_room() {
             SaveRoomRequest saveRoomRequest = new SaveRoomRequest("name",
                         "imgUrl",
                         List.of("userId1", "userId2"));

@@ -9,7 +9,9 @@ import static org.mockito.Mockito.when;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Paths;
 
 import com.whatsapp.images.configuration.ImageConfig;
 import com.whatsapp.images.configuration.ImageTypes;
@@ -17,6 +19,8 @@ import com.whatsapp.images.lib.ImageOperations;
 import com.whatsapp.images.models.UserImage;
 import com.whatsapp.images.repositories.ImageRepo;
 
+import org.apache.tomcat.util.http.fileupload.FileUtils;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,6 +44,10 @@ public class ImageServiceTest {
       @Before
       public void setUp() {
             underTest = new ImageService(imageRepo, imageConfig, imageOperations);
+      }
+      @After
+      public void tearDown() throws IOException {
+            FileUtils.deleteDirectory(Paths.get("user-photos").toFile());
       }
 
       @Test

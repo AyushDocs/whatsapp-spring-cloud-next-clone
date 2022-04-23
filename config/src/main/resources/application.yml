@@ -1,0 +1,20 @@
+# @format
+
+spring:
+    application:
+        name: CONFIG-SERVER
+    profiles:
+        active: native
+    cloud:
+        config:
+            discovery:
+                enabled: true
+            server:
+                native:
+                    search-locations: ${userprofile}/Desktop/code/whatsapp-spring-cloud-next-clone/config/config
+server:
+    port: 8085
+eureka:
+    client:
+        serviceUrl:
+            defaultZone: http://localhost:8761/eureka
