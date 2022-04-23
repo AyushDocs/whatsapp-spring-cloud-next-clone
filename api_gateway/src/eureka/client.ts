@@ -1,13 +1,13 @@
 /** @format */
 import {Eureka} from 'eureka-js-client';
 
-const port = process.env.PORT ? parseInt(process.env.PORT) : 3001;
+const port = process.env.PORT ? parseInt(process.env.PORT) : 8078;
 const client = new Eureka({
 	instance: {
 		app: 'API-GATEWAY',
-		hostName: 'localhost',
+		hostName: 'DESKTOP-HB7E3FD.mshome.net:API-GATEWAY:'+port,
 		ipAddr: '127.0.0.1',
-            statusPageUrl: `http://localhost:${port}/info`,
+		statusPageUrl: `http://localhost:${port}/info`,
 		port: {
 			$: port,
 			'@enabled': true,
@@ -21,10 +21,10 @@ const client = new Eureka({
 	eureka: {
 		host: '127.0.0.1',
 		port: 8761,
-            servicePath: '/eureka/apps/',
-            maxRetries:10,
-            requestRetryDelay:2000,
+		servicePath: '/eureka/apps/',
+		maxRetries: 10,
+		requestRetryDelay: 2000,
 	},
 });
-client.start(error =>console.log(error || 'api gateway registered'));
+client.start(error => console.log(error || 'api gateway registered'));
 export default client;
