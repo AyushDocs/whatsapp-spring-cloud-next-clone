@@ -15,6 +15,7 @@
             <module>profile</module>
             <module>room</module>
             <module>messages</module>
+            <module>images</module>
       </modules>
 
       <properties>
