@@ -1,4 +1,0 @@
-jwt:
-  secret_key: gttyvitvuntcutfbcitfctnvtnvvtntvtntyiit
-  time_delta: 900000
-  cookie_name: token

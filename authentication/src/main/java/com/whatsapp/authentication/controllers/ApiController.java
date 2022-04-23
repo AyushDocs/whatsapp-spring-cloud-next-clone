@@ -12,10 +12,10 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/users")
+@RequestMapping("/api/v1/authentication")
 public class ApiController {
       private final JwtUtils jwtUtils;
-      @PostMapping("/getRoles")
+      @PostMapping("/roles")
       public Response<String[]> getRoles(@CookieValue("token")String jwt) {
             if(jwt.isEmpty()||jwt.isBlank())throw new IllegalArgumentException();
             String[] data = jwtUtils.extractRoles(jwt);

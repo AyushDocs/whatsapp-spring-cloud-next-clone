@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/users/login")
+@RequestMapping("/api/v1/authentication/login")
 public class LoginController {
       private final LoginService loginService;
       private final JwtConfig jwtConfig;
