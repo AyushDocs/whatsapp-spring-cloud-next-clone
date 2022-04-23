@@ -1,7 +1,7 @@
 # @format
 spring:
     application:
-        name: ROOM-SERVICE
+        name: MESSAGE-SERVICE
     cloud:
         config:
             retry:
