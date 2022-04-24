@@ -1,1 +1,1 @@
-mvn spring-boot:build-image -Dspring-boot.build-image.imageName=config
+mvn spring-boot:build-image

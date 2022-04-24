@@ -1,1 +1,1 @@
-mvn spring-boot:build-image -Dspring-boot.build-image.imageName=images
+mvn spring-boot:build-image

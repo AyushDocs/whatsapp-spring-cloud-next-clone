@@ -1,1 +1,1 @@
-mvn spring-boot:build-image -Dspring-boot.build-image.imageName=messages
+mvn spring-boot:build-image 

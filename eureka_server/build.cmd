@@ -1,1 +1,1 @@
-mvn spring-boot:build-image -Dspring-boot.build-image.imageName=eurrka_server
+mvn spring-boot:build-image
