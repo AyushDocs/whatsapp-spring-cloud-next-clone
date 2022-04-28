@@ -1,19 +1,15 @@
-package com.whatsapp.messages.models;
+package com.whatsapp.messages.dto;
 
-import javax.persistence.Entity;
-
-import com.whatsapp.library.BaseEntity;
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
 @Data
-public class Message extends BaseEntity {
+public class ResponseMessage {
       private String content;
-      private String roomUuid;
+      private LocalDateTime createdAt;
       private String sentByEmail;
 }
