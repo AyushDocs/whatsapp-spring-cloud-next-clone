@@ -9,8 +9,11 @@ import com.whatsapp.messages.models.MessageUserId;
 import com.whatsapp.messages.repositories.MessageRepository;
 import com.whatsapp.messages.repositories.MessageUserIdRepository;
 
+import org.springframework.stereotype.Service;
+
 import lombok.RequiredArgsConstructor;
 
+@Service
 @RequiredArgsConstructor
 public class MessageService {
       private final MessageRepository messageRepository;
