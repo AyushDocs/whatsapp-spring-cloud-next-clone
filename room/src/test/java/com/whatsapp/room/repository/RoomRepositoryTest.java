@@ -1,5 +1,6 @@
 package com.whatsapp.room.repository;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -15,7 +16,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 @DataJpaTest
 public class RoomRepositoryTest {
       @Autowired
-      private RoomRepository roomRepository;
+      private RoomRepository underTest;
       @Autowired
       private TestEntityManager em;
       @BeforeEach
@@ -27,7 +28,7 @@ public class RoomRepositoryTest {
             Room room=new Room("name","lastMessage","imgUrl");
             em.persist(room);
 
-            FindRoomsResponse[] response = roomRepository.findRoomsWithUnreadMessagesByUserUuid("userUuid");
+            FindRoomsResponse[] response = underTest.findRoomsWithUnreadMessagesByUserUuid("userUuid");
 
             assertNull(response);
       }
@@ -38,8 +39,22 @@ public class RoomRepositoryTest {
             RoomUserId rui=new RoomUserId(null, room.getUuid(),"userUuid");
             em.persistAndFlush(rui);
 
-            FindRoomsResponse[] response = roomRepository.findRoomsWithUnreadMessagesByUserUuid("userUuid");
+            FindRoomsResponse[] response = underTest.findRoomsWithUnreadMessagesByUserUuid("userUuid");
 
             assertNotNull(response);
+      }
+      @Test
+      void should_update_room_last_message() {
+            Room room=new Room("name","lastMessage","imgUrl");
+            Room savedRoom = em.persistAndFlush(room);
+
+            String uuid = savedRoom.getUuid();
+            System.out.println(room.getUuid());
+            System.out.println(savedRoom.getUuid());
+
+            underTest.saveMessage(uuid,"content");
+
+            Room roomFound = em.find(Room.class,savedRoom.getId());
+            assertEquals("content",roomFound.getLastMessage());
       }
 }

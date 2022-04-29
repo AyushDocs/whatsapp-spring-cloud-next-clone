@@ -1,6 +1,7 @@
 package com.whatsapp.room.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.whatsapp.room.dto.FindRoomsResponse;
+import com.whatsapp.room.dto.SaveMessageRequest;
 import com.whatsapp.room.dto.SaveRoomRequest;
 import com.whatsapp.room.models.Room;
 import com.whatsapp.room.repository.RoomRepository;
@@ -30,11 +32,11 @@ public class RoomServiceTest {
       private RoomRepository roomRepository;
       @Mock
       private RestTemplate restTemplate;
-      private RoomService roomService;
+      private RoomService underTest;
 
       @Before
       public void setup() {
-            roomService = new RoomService(roomRepository, restTemplate);
+            underTest = new RoomService(roomRepository, restTemplate);
       }
 
       @Test
@@ -48,7 +50,7 @@ public class RoomServiceTest {
             when(roomRepository.findRoomsWithUnreadMessagesByUserUuid(anyString()))
                         .thenReturn(resArr);
 
-            FindRoomsResponse[] resArrFromMethod = roomService
+            FindRoomsResponse[] resArrFromMethod = underTest
                         .findRoomsWithUnreadMessagesByUserUuid("userUuid");
 
             verify(roomRepository).findRoomsWithUnreadMessagesByUserUuid(anyString());
@@ -64,12 +66,24 @@ public class RoomServiceTest {
                         "imgUrl",
                         List.of("userId1", "userId2"));
 
-            roomService.saveRoom(saveRoomRequest);
+            underTest.saveRoom(saveRoomRequest);
             ArgumentCaptor<Room> ac = ArgumentCaptor.forClass(Room.class);
             verify(roomRepository).save(ac.capture());
             Room room = ac.getValue();
             assertEquals("name", room.getName());
             assertEquals("", room.getLastMessage());
             assertEquals("imgUrl", room.getImgUrl());
+      }
+
+      @Test
+      public void should_change_room_last_message() {
+            SaveMessageRequest saveMessageRequest = new SaveMessageRequest(
+                        "content",
+                        "sentBy",
+                        "roomUuid");
+
+            underTest.saveMessage(saveMessageRequest);
+            verify(restTemplate).postForEntity(anyString(), any(SaveMessageRequest.class), any(Class.class));
+            verify(roomRepository).saveMessage(anyString(), anyString());
       }
 }

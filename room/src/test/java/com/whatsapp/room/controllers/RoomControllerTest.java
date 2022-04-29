@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.whatsapp.room.dto.FindRoomsResponse;
+import com.whatsapp.room.dto.SaveMessageRequest;
 import com.whatsapp.room.dto.SaveRoomRequest;
 import com.whatsapp.room.service.RoomService;
 
@@ -18,19 +19,21 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.times;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 @WebMvcTest(RoomController.class)
 @ExtendWith(MockitoExtension.class)
 class RoomControllerTest {
+      @Autowired
       private RoomController controller;
-      @Mock
+      @MockBean
       private RoomService roomService;
-
-      @BeforeEach
-      void setup() {
-            controller = new RoomController(roomService);
-      }
 
       @Test
       void should_save_room() {
@@ -61,5 +64,10 @@ class RoomControllerTest {
             assertEquals("roomName", response[0].getRoomName());
             assertEquals("lastMessage", response[0].getLastMessage());
             assertEquals(now, response[0].getTimestamp());
+      }
+      @Test
+      void should_update_room_last_message() {
+            controller.save(new SaveMessageRequest("content", "sentBy", "roomUuid"));
+            verify(roomService).saveMessage(any(SaveMessageRequest.class));
       }
 }

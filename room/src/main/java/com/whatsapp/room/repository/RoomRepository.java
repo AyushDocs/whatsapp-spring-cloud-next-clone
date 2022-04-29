@@ -19,7 +19,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
       FindRoomsResponse[] findRoomsWithUnreadMessagesByUserUuid(String userUuid);
       
       
-      @Modifying
+      @Modifying(flushAutomatically = true,clearAutomatically = true)
       @Query("UPDATE Room r SET r.lastMessage = ?2 WHERE r.uuid = ?1")
       void saveMessage(String roomUuid, String content);
 }
