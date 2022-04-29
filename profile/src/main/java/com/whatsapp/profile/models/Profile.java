@@ -4,10 +4,14 @@ import javax.persistence.Entity;
 
 import com.whatsapp.library.BaseEntity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 @Data
 @Entity
-public class User extends BaseEntity {
+@AllArgsConstructor
+@NoArgsConstructor
+public class Profile extends BaseEntity {
       private String email;
       private String username;
       private String imgUrl;

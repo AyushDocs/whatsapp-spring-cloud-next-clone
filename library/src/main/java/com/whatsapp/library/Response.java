@@ -1,7 +1,6 @@
 package com.whatsapp.library;
 
 import java.util.Objects;
-
 public class Response<T> {
       private T data;
       private boolean hasError;

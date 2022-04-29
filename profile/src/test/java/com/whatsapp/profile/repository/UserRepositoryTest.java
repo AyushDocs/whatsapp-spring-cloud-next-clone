@@ -8,7 +8,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 @DataJpaTest
 class UserRepositoryTest {
       @Autowired
-      private UserRepository userRepository;
+      private ProfileRepository userRepository;
       @Autowired
       private TestEntityManager em;
 

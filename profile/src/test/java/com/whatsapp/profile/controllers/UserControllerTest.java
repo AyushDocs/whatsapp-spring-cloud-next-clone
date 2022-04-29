@@ -14,7 +14,7 @@ import java.util.List;
 import com.whatsapp.library.Response;
 import com.whatsapp.profile.dto.UserResponseDto;
 import com.whatsapp.profile.exceptions.InvalidInputException;
-import com.whatsapp.profile.service.UserService;
+import com.whatsapp.profile.service.ProfileService;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,13 +29,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 
-@WebMvcTest(UserController.class)
+@WebMvcTest(ProfileController.class)
 @ExtendWith(MockitoExtension.class)
 class UserControllerTest {
       @Autowired
-      private UserController userController;
+      private ProfileController userController;
       @MockBean
-      private UserService userService;
+      private ProfileService userService;
 
       private static final String UUID = "uuid";
       private static final String USERNAME = "Ayush";

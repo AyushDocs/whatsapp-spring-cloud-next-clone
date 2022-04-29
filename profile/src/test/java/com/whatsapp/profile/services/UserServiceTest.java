@@ -8,8 +8,8 @@ import static org.mockito.Mockito.when;
 import java.util.List;
 
 import com.whatsapp.profile.dto.UserResponseDto;
-import com.whatsapp.profile.repository.UserRepository;
-import com.whatsapp.profile.service.UserService;
+import com.whatsapp.profile.repository.ProfileRepository;
+import com.whatsapp.profile.service.ProfileService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -26,15 +26,15 @@ import org.springframework.data.domain.Pageable;
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
       @Mock
-      private UserRepository repository;
+      private ProfileRepository repository;
       
-      private UserService underTest;
+      private ProfileService underTest;
 
       private static final String TEXT = "text";
       
       @Before
       public void setup() {
-            underTest = new UserService(repository);
+            underTest = new ProfileService(repository);
       }
 
       @Test

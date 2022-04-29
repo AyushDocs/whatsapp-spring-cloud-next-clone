@@ -3,7 +3,7 @@ package com.whatsapp.profile.controllers;
 import com.whatsapp.library.Response;
 import com.whatsapp.profile.dto.UserResponseDto;
 import com.whatsapp.profile.exceptions.InvalidInputException;
-import com.whatsapp.profile.service.UserService;
+import com.whatsapp.profile.service.ProfileService;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -18,10 +18,10 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/v1/profiles")
 @RequiredArgsConstructor
-public class UserController {
-      private final UserService userService;
+public class ProfileController {
+      private final ProfileService userService;
 
-      @GetMapping("/")
+      @GetMapping
       @ResponseStatus(HttpStatus.PARTIAL_CONTENT)
       public Response<Page<UserResponseDto>> findPossibleFriends(
                   @RequestParam String text,
