@@ -12,6 +12,7 @@ import static org.mockito.Mockito.when;
 import java.util.List;
 
 import com.whatsapp.library.Response;
+import com.whatsapp.profile.dto.SaveUserDto;
 import com.whatsapp.profile.dto.UserResponseDto;
 import com.whatsapp.profile.exceptions.InvalidInputException;
 import com.whatsapp.profile.service.ProfileService;
@@ -72,5 +73,14 @@ class UserControllerTest {
             assertEquals(IMG_URL, userResponseDto.getImgUrl());
             assertEquals(USERNAME, userResponseDto.getUsername());
             assertEquals(UUID, userResponseDto.getUuid());
+      }
+      @Test
+      void should_not_add_users(){
+            // arrange
+            SaveUserDto saveUserDto = new SaveUserDto("email","username");
+
+            userController.saveUser(saveUserDto);
+
+            assertNotNull(userController.findByEmail("email"));
       }
 }

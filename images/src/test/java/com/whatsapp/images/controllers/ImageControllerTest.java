@@ -36,7 +36,7 @@ public class ImageControllerTest {
       }
       @Test
       void should_find_images() throws Exception{
-            imageController.findImage("userUuid", PROFILE, "format");
+            imageController.findImage("userUuid", "PROFILE", "format");
 
             verify(imageService).findImages(PROFILE, "format", "userUuid");
       }

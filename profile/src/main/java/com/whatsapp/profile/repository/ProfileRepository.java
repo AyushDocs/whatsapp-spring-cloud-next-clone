@@ -1,5 +1,6 @@
 package com.whatsapp.profile.repository;
 
+import com.whatsapp.profile.dto.FindUserDto;
 import com.whatsapp.profile.dto.UserResponseDto;
 import com.whatsapp.profile.models.Profile;
 
@@ -16,5 +17,10 @@ public interface ProfileRepository extends JpaRepository<Profile, Long> {
                   + "FROM Profile p "
                   + "WHERE p.username LIKE %?1% OR p.email LIKE %?1%")
       Page<UserResponseDto> findPossibleFriends(String text,Pageable pageable);
+
+      @Query("SELECT new com.whatsapp.profile.dto.FindUserDto(p.email,p.username,p.imgUrl) "
+                  + "FROM Profile p "
+                  + "WHERE p.email = ?1")
+      FindUserDto findByEmail(String email);
 
 }

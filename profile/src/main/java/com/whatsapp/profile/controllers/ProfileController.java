@@ -1,6 +1,10 @@
 package com.whatsapp.profile.controllers;
 
+import javax.validation.Valid;
+
 import com.whatsapp.library.Response;
+import com.whatsapp.profile.dto.FindUserDto;
+import com.whatsapp.profile.dto.SaveUserDto;
 import com.whatsapp.profile.dto.UserResponseDto;
 import com.whatsapp.profile.exceptions.InvalidInputException;
 import com.whatsapp.profile.service.ProfileService;
@@ -8,6 +12,10 @@ import com.whatsapp.profile.service.ProfileService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -35,5 +43,19 @@ public class ProfileController {
       private void validateText(String text) {
             if (text.isEmpty() || text.isBlank())
                   throw new InvalidInputException("text is either blank or empty");
+      }
+
+      @PostMapping
+      public void saveUser(@RequestBody @Valid SaveUserDto saveUserDto) {
+            userService.saveUser(saveUserDto);
+      }
+      @PutMapping
+      public void addImageUrlForUser(@RequestBody @Valid SaveUserDto saveUserDto) {
+            userService.saveUser(saveUserDto);
+      }
+
+      @GetMapping("/{email}")
+      public FindUserDto findByEmail(@PathVariable String email) {
+            return userService.findByEmail(email);
       }
 }

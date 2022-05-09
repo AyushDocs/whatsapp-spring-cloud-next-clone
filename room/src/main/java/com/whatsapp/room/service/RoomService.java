@@ -2,14 +2,17 @@ package com.whatsapp.room.service;
 
 import static com.whatsapp.room.utils.Mapper.convertSaveRoomRequestToRoom;
 
+import java.util.List;
+
 import com.whatsapp.room.dto.FindRoomsResponse;
 import com.whatsapp.room.dto.SaveMessageRequest;
 import com.whatsapp.room.dto.SaveRoomRequest;
 import com.whatsapp.room.models.Room;
+import com.whatsapp.room.models.RoomUserId;
 import com.whatsapp.room.repository.RoomRepository;
+import com.whatsapp.room.repository.RoomUserIdRepository;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,26 +20,29 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class RoomService {
       private final RoomRepository roomRepository;
-      private final RestTemplate restTemplate;
+      private final RoomUserIdRepository roomUserIdRepository;
 
-      private static final String MESSAGE_SERVICE_URL = "http://MESSAGE-SERVICE";
+      private final MessageService messageService;
       
       public void saveRoom(SaveRoomRequest saveRoomRequest) {
             Room room = convertSaveRoomRequestToRoom(saveRoomRequest);
-            roomRepository.save(room);
+            Room savedRoom = roomRepository.save(room);
+            roomUserIdRepository.saveAll(saveRoomRequest
+            .getUsers()
+            .stream()
+            .map(userUuid-> new RoomUserId(null, savedRoom.getUuid(),userUuid))
+            .toList())
+            ;
+
       }
 
-      public FindRoomsResponse[] findRoomsWithUnreadMessagesByUserUuid(String userUuid) {
+      public List<FindRoomsResponse> findRoomsWithUnreadMessagesByUserUuid(String userUuid) {
             return roomRepository.findRoomsWithUnreadMessagesByUserUuid(userUuid);
       }
 
       public void saveMessage(SaveMessageRequest saveMessageRequest) {
             roomRepository.saveMessage(saveMessageRequest.getRoomUuid(), saveMessageRequest.getContent());
-            sendMessageToMessageService(saveMessageRequest);
-      }
-
-      private void sendMessageToMessageService(SaveMessageRequest saveMessageRequest) {
-            restTemplate.postForEntity(MESSAGE_SERVICE_URL, saveMessageRequest, Void.class);
+            // messageService.sendMessage(saveMessageRequest);
       }
 
 }

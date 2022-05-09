@@ -31,9 +31,9 @@ public class ImageController {
     }
 
     @GetMapping
-    public String findImage(@PathVariable String userUuid,
-            @PathVariable ImageTypes imageType,
-            @PathVariable String format) {
-        return imageService.findImages(imageType,format,userUuid);
+    public String findImage(@RequestParam String userUuid,
+            @RequestParam String imageType,
+            @RequestParam String format) {
+        return imageService.findImages(ImageTypes.valueOf(imageType.toUpperCase()),format,userUuid);
     }
 }

@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 public class SignupService {
       private final UserRepository userRepository;
       private final PasswordEncoder passwordEncoder;
+      private final ProfileService profileService;
       
       public void signup(User user) {
             validateUserForSignup(user);
@@ -32,5 +33,6 @@ public class SignupService {
 
       private void saveUser(User user) {
             userRepository.save(user);
+            profileService.saveUser(user);
       }
 }

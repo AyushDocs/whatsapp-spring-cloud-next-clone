@@ -25,7 +25,10 @@ const handleMultipartRequest = async (req: express.Request, res: express.Respons
 	return res.json({data: response.data});
 };
 export const handleImageRequests = (req: express.Request, res: express.Response) => {
-	const isMultiPartMessage = req.headers['content-type'] !== 'application/json';
+	const isMultiPartMessage = req.headers['Content-Type']?req.headers['Content-Type'].indexOf('multipart') != -1:false;
+	console.log(req.headers['content-type']);
+	console.log(req.headers['content-type']?.indexOf('multipart'));
+	console.log(isMultiPartMessage);
 	if (isMultiPartMessage) return handleMultipartRequest(req, res, 'IMAGE-SERVICE');
 	return proxyRequest(req, res, 'IMAGE-SERVICE');
 };
@@ -36,10 +39,10 @@ export const proxyRequest = async (request: express.Request, response: express.R
 	const res: Response = await Fetch(serverPath, {
 		method: request.method,
 		headers,
-		body:request.method=='GET'?undefined: JSON.stringify(request.body)
+		body: request.method == 'GET' ? undefined : JSON.stringify(request.body),
 	});
-	const body=await res.text()
-	addHeadersToResponse(response,res.headers);
+	const body = await res.text();
+	addHeadersToResponse(response, res.headers);
 	return response.status(res.status).send(body).end();
 };
 const validateFile = (req: express.Request) => {
@@ -48,20 +51,19 @@ const validateFile = (req: express.Request) => {
 	if (Array.isArray(imageFile)) return undefined;
 	return imageFile;
 };
-function addHeadersToResponse(response: express.Response,requestHeaders:Headers) {
-	const keys=Array.from(requestHeaders.keys());
-	const values=Array.from(requestHeaders.values());
+function addHeadersToResponse(response: express.Response, requestHeaders: Headers) {
+	const keys = Array.from(requestHeaders.keys());
+	const values = Array.from(requestHeaders.values());
 	for (let i = 0; i < keys.length; i++) {
-		response.setHeader(keys[i],values[i]);
+		response.setHeader(keys[i], values[i]);
 	}
 }
 
-function getHeadersFromRequest(request:express.Request) {
-	const headers=new Headers();
+function getHeadersFromRequest(request: express.Request) {
+	const headers = new Headers();
 	const requestHeaders = request.rawHeaders;
 	for (let i = 0; i < requestHeaders.length; i += 2) {
 		headers.append(requestHeaders[i], requestHeaders[i + 1]);
 	}
 	return headers;
 }
-

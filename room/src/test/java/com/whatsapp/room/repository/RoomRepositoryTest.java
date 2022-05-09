@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import java.util.List;
+
 import com.whatsapp.room.dto.FindRoomsResponse;
 import com.whatsapp.room.models.Room;
 import com.whatsapp.room.models.RoomUserId;
@@ -28,7 +30,7 @@ public class RoomRepositoryTest {
             Room room=new Room("name","lastMessage","imgUrl");
             em.persist(room);
 
-            FindRoomsResponse[] response = underTest.findRoomsWithUnreadMessagesByUserUuid("userUuid");
+            List<FindRoomsResponse> response = underTest.findRoomsWithUnreadMessagesByUserUuid("userUuid");
 
             assertNull(response);
       }
@@ -39,7 +41,7 @@ public class RoomRepositoryTest {
             RoomUserId rui=new RoomUserId(null, room.getUuid(),"userUuid");
             em.persistAndFlush(rui);
 
-            FindRoomsResponse[] response = underTest.findRoomsWithUnreadMessagesByUserUuid("userUuid");
+            List<FindRoomsResponse> response = underTest.findRoomsWithUnreadMessagesByUserUuid("userUuid");
 
             assertNotNull(response);
       }

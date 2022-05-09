@@ -7,6 +7,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 import com.whatsapp.room.dto.FindRoomsResponse;
@@ -14,15 +15,9 @@ import com.whatsapp.room.dto.SaveMessageRequest;
 import com.whatsapp.room.dto.SaveRoomRequest;
 import com.whatsapp.room.service.RoomService;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.times;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -52,18 +47,18 @@ class RoomControllerTest {
                         "roomName",
                         "lastMessage",
                         now);
-            FindRoomsResponse[] responseArr = { findRoomsResponse};
+            List<FindRoomsResponse> responseArr = Arrays.asList(findRoomsResponse);
             when(roomService.findRoomsWithUnreadMessagesByUserUuid(anyString()))
                         .thenReturn(responseArr);
 
-            FindRoomsResponse[] response = controller
+            List<FindRoomsResponse> response = controller
                         .findRoomsWithUnreadMessagesByUserUuid("uuid");
 
             verify(roomService).findRoomsWithUnreadMessagesByUserUuid(anyString());
-            assertEquals("roomUuid", response[0].getRoomUuid());
-            assertEquals("roomName", response[0].getRoomName());
-            assertEquals("lastMessage", response[0].getLastMessage());
-            assertEquals(now, response[0].getTimestamp());
+            assertEquals("roomUuid", response.get(0).getRoomUuid());
+            assertEquals("roomName", response.get(0).getRoomName());
+            assertEquals("lastMessage", response.get(0).getLastMessage());
+            assertEquals(now, response.get(0).getTimestamp());
       }
       @Test
       void should_update_room_last_message() {

@@ -30,6 +30,8 @@ public class SignupServiceTest {
       private UserRepository repository;
       @Mock
       private PasswordEncoder encoder;
+      @Mock
+      private ProfileService profileService;
       
       private SignupService underTest;
       private SignupRequest signupRequestPayload;
@@ -40,7 +42,7 @@ public class SignupServiceTest {
 
       @Before
       public void setUp() {
-            underTest = new SignupService(repository, encoder);
+            underTest = new SignupService(repository, encoder,profileService);
             signupRequestPayload = SignupRequest.builder()
                         .email(EMAIL)
                         .password(PASSWORD)

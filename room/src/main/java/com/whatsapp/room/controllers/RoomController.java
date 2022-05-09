@@ -1,5 +1,9 @@
 package com.whatsapp.room.controllers;
 
+import java.util.List;
+
+import javax.validation.Valid;
+
 import com.whatsapp.room.dto.FindRoomsResponse;
 import com.whatsapp.room.dto.SaveMessageRequest;
 import com.whatsapp.room.dto.SaveRoomRequest;
@@ -21,15 +25,15 @@ import lombok.RequiredArgsConstructor;
 public class RoomController {
       private final RoomService roomService;
       @PostMapping("/rooms/")
-      public void save(@RequestBody SaveRoomRequest saveRoomRequest) {
+      public void save(@RequestBody @Valid SaveRoomRequest saveRoomRequest) {
             roomService.saveRoom(saveRoomRequest);
       }
       @PutMapping("/rooms/")
-      public void save(@RequestBody SaveMessageRequest saveMessageRequest) {
+      public void save(@RequestBody @Valid SaveMessageRequest saveMessageRequest) {
             roomService.saveMessage(saveMessageRequest);
       }
       @GetMapping("/rooms/{userUuid}")
-      public FindRoomsResponse[] findRoomsWithUnreadMessagesByUserUuid(@PathVariable String userUuid) {
+      public List<FindRoomsResponse> findRoomsWithUnreadMessagesByUserUuid(@PathVariable String userUuid) {
             return roomService.findRoomsWithUnreadMessagesByUserUuid(userUuid);
       }
 }

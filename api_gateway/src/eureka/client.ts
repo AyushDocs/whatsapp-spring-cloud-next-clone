@@ -5,7 +5,7 @@ const port = process.env.PORT ? parseInt(process.env.PORT) : 8078;
 const client = new Eureka({
 	instance: {
 		app: 'API-GATEWAY',
-		hostName: 'DESKTOP-HB7E3FD.mshome.net:API-GATEWAY:'+port,
+		hostName: 'API-GATEWAY:'+port,
 		ipAddr: '127.0.0.1',
 		statusPageUrl: `http://localhost:${port}/info`,
 		port: {
@@ -26,5 +26,5 @@ const client = new Eureka({
 		requestRetryDelay: 2000,
 	},
 });
-client.start(error => console.log(error || 'api gateway registered'));
+client.start(error => console.log(error?error:'api gateway registered'));
 export default client;

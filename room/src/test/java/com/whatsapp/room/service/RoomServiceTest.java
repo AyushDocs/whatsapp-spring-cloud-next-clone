@@ -1,12 +1,12 @@
 package com.whatsapp.room.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 import com.whatsapp.room.dto.FindRoomsResponse;
@@ -14,6 +14,7 @@ import com.whatsapp.room.dto.SaveMessageRequest;
 import com.whatsapp.room.dto.SaveRoomRequest;
 import com.whatsapp.room.models.Room;
 import com.whatsapp.room.repository.RoomRepository;
+import com.whatsapp.room.repository.RoomUserIdRepository;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +24,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.web.client.RestTemplate;
 
 @RunWith(MockitoJUnitRunner.class)
 @ExtendWith(MockitoExtension.class)
@@ -31,12 +31,14 @@ public class RoomServiceTest {
       @Mock
       private RoomRepository roomRepository;
       @Mock
-      private RestTemplate restTemplate;
+      private RoomUserIdRepository roomUserIdRepository;
+      @Mock
+      private MessageService messageService;
       private RoomService underTest;
 
       @Before
       public void setup() {
-            underTest = new RoomService(roomRepository, restTemplate);
+            underTest = new RoomService(roomRepository,null, messageService);
       }
 
       @Test
@@ -46,18 +48,18 @@ public class RoomServiceTest {
                         "name",
                         "",
                         now);
-            FindRoomsResponse[] resArr = { res };
+            List<FindRoomsResponse> resArr = Arrays.asList(res);
             when(roomRepository.findRoomsWithUnreadMessagesByUserUuid(anyString()))
                         .thenReturn(resArr);
 
-            FindRoomsResponse[] resArrFromMethod = underTest
+            List<FindRoomsResponse> resArrFromMethod = underTest
                         .findRoomsWithUnreadMessagesByUserUuid("userUuid");
 
             verify(roomRepository).findRoomsWithUnreadMessagesByUserUuid(anyString());
-            assertEquals("roomUuid", resArrFromMethod[0].getRoomUuid());
-            assertEquals("name", resArrFromMethod[0].getRoomName());
-            assertEquals("", resArrFromMethod[0].getLastMessage());
-            assertEquals(now, resArrFromMethod[0].getTimestamp());
+            assertEquals("roomUuid", resArrFromMethod.get(0).getRoomUuid());
+            assertEquals("name", resArrFromMethod.get(0).getRoomName());
+            assertEquals("", resArrFromMethod.get(0).getLastMessage());
+            assertEquals(now, resArrFromMethod.get(0).getTimestamp());
       }
 
       @Test
@@ -83,7 +85,7 @@ public class RoomServiceTest {
                         "roomUuid");
 
             underTest.saveMessage(saveMessageRequest);
-            verify(restTemplate).postForEntity(anyString(), any(SaveMessageRequest.class), any(Class.class));
+            verify(messageService).sendMessage(saveMessageRequest);
             verify(roomRepository).saveMessage(anyString(), anyString());
       }
 }
