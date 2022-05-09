@@ -1,5 +1,8 @@
 package com.whatsapp.profile.service;
 
+import javax.validation.Valid;
+
+import com.whatsapp.profile.dto.AddImageUrlDto;
 import com.whatsapp.profile.dto.FindUserDto;
 import com.whatsapp.profile.dto.SaveUserDto;
 import com.whatsapp.profile.dto.UserResponseDto;
@@ -14,18 +17,22 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class ProfileService {
-      private final ProfileRepository userRepository;
+      private final ProfileRepository profileRepository;
 
       public Page<UserResponseDto> findUsersByText(String text, int offset, int limit) {
-            return userRepository.findPossibleFriends(text, PageRequest.of(offset, limit));
+            return profileRepository.findPossibleFriends(text, PageRequest.of(offset, limit));
       }
 
       public void saveUser(SaveUserDto saveUserDto) {
-            userRepository.save(saveUserDto.toProfile());
+            profileRepository.save(saveUserDto.toProfile());
       }
 
       public FindUserDto findByEmail(String email) {
-            return userRepository.findByEmail(email);
+            return profileRepository.findByEmail(email);
+      }
+
+      public void updateImageUrl(AddImageUrlDto addImageUrlDto) {
+            profileRepository.updateImageUrlByUserUuid(addImageUrlDto.getImageUrl(),addImageUrlDto.getUserUuid());
       }
 
 }

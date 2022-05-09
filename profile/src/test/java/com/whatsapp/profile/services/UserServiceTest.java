@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.List;
 
+import com.whatsapp.profile.dto.AddImageUrlDto;
 import com.whatsapp.profile.dto.UserResponseDto;
 import com.whatsapp.profile.repository.ProfileRepository;
 import com.whatsapp.profile.service.ProfileService;
@@ -27,11 +28,11 @@ import org.springframework.data.domain.Pageable;
 public class UserServiceTest {
       @Mock
       private ProfileRepository repository;
-      
+
       private ProfileService underTest;
 
       private static final String TEXT = "text";
-      
+
       @Before
       public void setup() {
             underTest = new ProfileService(repository);
@@ -49,7 +50,17 @@ public class UserServiceTest {
             underTest.findUsersByText(TEXT, 0, 1);
             // assert
             verify(repository)
-                        .findPossibleFriends(anyString(),any(Pageable.class));
+                        .findPossibleFriends(anyString(), any(Pageable.class));
+
+      }
+
+      @Test
+      public void update_image_url() {
+            AddImageUrlDto addImageUrlDto = new AddImageUrlDto("uuid","url");
+            
+            underTest.updateImageUrl(addImageUrlDto);
+
+            verify(repository).updateImageUrlByUserUuid("url", "uuid");
 
       }
 }

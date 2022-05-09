@@ -1,5 +1,7 @@
 package com.whatsapp.profile.repository;
 
+import javax.transaction.Transactional;
+
 import com.whatsapp.profile.dto.FindUserDto;
 import com.whatsapp.profile.dto.UserResponseDto;
 import com.whatsapp.profile.models.Profile;
@@ -7,6 +9,7 @@ import com.whatsapp.profile.models.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -22,5 +25,10 @@ public interface ProfileRepository extends JpaRepository<Profile, Long> {
                   + "FROM Profile p "
                   + "WHERE p.email = ?1")
       FindUserDto findByEmail(String email);
+
+      @Query("UPDATE Profile p SET p.imgUrl=?1 WHERE p.uuid = ?2")
+      @Modifying(clearAutomatically =true)
+      @Transactional
+      void updateImageUrlByUserUuid(String imageUrl, String userUuid);
 
 }
