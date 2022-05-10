@@ -9,8 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FindRoomsResponse {
-      private String roomUuid;
       private String roomName;
+      private String roomUuid;
       private String lastMessage;
+      private String imgUrl;
       private LocalDateTime timestamp;
 }

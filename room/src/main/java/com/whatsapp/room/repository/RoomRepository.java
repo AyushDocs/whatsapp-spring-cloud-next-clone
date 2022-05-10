@@ -15,16 +15,18 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Long> {
       @Query("SELECT new com.whatsapp.room.dto.FindRoomsResponse " +
-                  "(r.uuid,r.name,r.lastMessage,r.updatedAt) " +
+                  "(r.name,r.uuid,r.lastMessage,r.imgUrl,r.updatedAt) " +
                   "FROM Room r " +
                   "WHERE r.uuid IN " +
-                  "(SELECT rui.roomUuid FROM RoomUserId rui " +
-                  "WHERE rui.userUuid = ?1)")
+                  "(SELECT uru.roomUuid FROM UnreadRoomUser uru " +
+                  "WHERE uru.userUuid = ?1)")
       List<FindRoomsResponse> findRoomsWithUnreadMessagesByUserUuid(String userUuid);
       
       
-      @Modifying(flushAutomatically = true)
+      @Modifying(clearAutomatically  = true)
       @Transactional
       @Query("UPDATE Room r SET r.lastMessage = ?2 WHERE r.uuid = ?1")
-      void saveMessage(String roomUuid, String content);
+      void updateMessage(String roomUuid, String content);
+
+
 }
